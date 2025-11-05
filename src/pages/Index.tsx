@@ -1,12 +1,47 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState, useEffect } from "react";
+import IntroAnimation from "@/components/IntroAnimation";
+import Header from "@/components/Header";
+import Sidebar from "@/components/Sidebar";
+import AIAssistant from "@/components/AIAssistant";
+import Footer from "@/components/Footer";
+import { Outlet } from "react-router-dom";
 
 const Index = () => {
+  const [showIntro, setShowIntro] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    // Check if user has seen intro before
+    const hasSeenIntro = sessionStorage.getItem("hasSeenIntro");
+    if (hasSeenIntro) {
+      setShowIntro(false);
+    }
+  }, []);
+
+  const handleIntroComplete = () => {
+    setShowIntro(false);
+    sessionStorage.setItem("hasSeenIntro", "true");
+  };
+
+  const handleSearch = (query: string) => {
+    console.log("Search query:", query);
+  };
+
+  if (showIntro) {
+    return <IntroAnimation onComplete={handleIntroComplete} />;
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen flex flex-col gradient-soft">
+      <Header onSearch={handleSearch} onMenuClick={() => setSidebarOpen(true)} />
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      
+      <main className="flex-1">
+        <Outlet />
+      </main>
+
+      <Footer />
+      <AIAssistant />
     </div>
   );
 };
