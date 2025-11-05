@@ -2,15 +2,24 @@ import { Book, FileText, HelpCircle, ExternalLink } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 interface SubjectCardProps {
   code: string;
   title: string;
   credits: number;
   category: string;
+  syllabus?: string[];
 }
 
-const SubjectCard = ({ code, title, credits, category }: SubjectCardProps) => {
+const SubjectCard = ({ code, title, credits, category, syllabus }: SubjectCardProps) => {
   const categoryColors: Record<string, string> = {
     BS: "bg-blue-500/10 text-blue-700 dark:text-blue-400",
     PC: "bg-primary/10 text-primary",
@@ -36,10 +45,37 @@ const SubjectCard = ({ code, title, credits, category }: SubjectCardProps) => {
       </div>
 
       <div className="flex flex-wrap gap-2">
-        <Button size="sm" variant="outline" className="gap-2">
-          <Book className="h-4 w-4" />
-          Syllabus
-        </Button>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button size="sm" variant="outline" className="gap-2">
+              <Book className="h-4 w-4" />
+              Syllabus
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>{title}</DialogTitle>
+              <DialogDescription>
+                {code} • {credits} credits • {category}
+              </DialogDescription>
+            </DialogHeader>
+            <div className="mt-4">
+              <h4 className="font-semibold mb-3 text-foreground">Course Syllabus</h4>
+              {syllabus && syllabus.length > 0 ? (
+                <ul className="space-y-2">
+                  {syllabus.map((topic, index) => (
+                    <li key={index} className="flex items-start gap-2">
+                      <span className="text-primary mt-1">•</span>
+                      <span className="text-muted-foreground">{topic}</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-muted-foreground">Syllabus details coming soon...</p>
+              )}
+            </div>
+          </DialogContent>
+        </Dialog>
         <Button size="sm" variant="outline" className="gap-2">
           <FileText className="h-4 w-4" />
           Notes

@@ -48,6 +48,7 @@ const SemesterPage = () => {
                 title={subject.title}
                 credits={subject.credits}
                 category={subject.category}
+                syllabus={subject.syllabus}
               />
             </div>
           ))}
