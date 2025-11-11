@@ -1,13 +1,13 @@
-import { MessageCircle, X, Send } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { MessageCircle, X, Send, BookOpen, FileText, HelpCircle, Folder, Bot } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useState } from "react";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
+  isTyping?: boolean;
 }
 
 const AIAssistant = () => {
@@ -15,25 +15,49 @@ const AIAssistant = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "Hello! I'm your CS-semHUB AI assistant. Ask me anything about your CSE syllabus, subjects, or resources!"
+      content: "Hi! 👋 I'm your CS-semHUB Assistant. How can I help you today?"
     }
   ]);
   const [input, setInput] = useState("");
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-  const handleSend = () => {
-    if (!input.trim()) return;
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [messages]);
 
-    setMessages([...messages, { role: "user", content: input }]);
-    
-    // Simulate AI response
-    setTimeout(() => {
-      setMessages(prev => [...prev, {
-        role: "assistant",
-        content: "I can help you with information about any subject, semester, or year. Try asking about specific topics like 'What is DBMS?' or 'Show me 3rd year subjects'."
-      }]);
-    }, 1000);
+  const handleQuickReply = (query: string) => {
+    setInput(query);
+    handleSend(query);
+  };
 
+  const handleSend = (customInput?: string) => {
+    const messageText = customInput || input;
+    if (!messageText.trim()) return;
+
+    const userMessage: Message = { role: "user", content: messageText };
+    setMessages((prev) => [...prev, userMessage]);
     setInput("");
+
+    // Show typing indicator
+    const typingMessage: Message = {
+      role: "assistant",
+      content: "...",
+      isTyping: true
+    };
+    setMessages((prev) => [...prev, typingMessage]);
+
+    // Simulate AI response with typing animation
+    setTimeout(() => {
+      setMessages((prev) => prev.filter(msg => !msg.isTyping));
+      
+      const aiMessage: Message = {
+        role: "assistant",
+        content: `I can help you with "${messageText}". Please let me know which semester or subject you'd like to explore, and I'll guide you to the right resources.`,
+      };
+      setMessages((prev) => [...prev, aiMessage]);
+    }, 1500);
   };
 
   return (
@@ -49,63 +73,104 @@ const AIAssistant = () => {
       )}
 
       {isOpen && (
-        <Card className="fixed bottom-6 right-6 w-96 h-[600px] flex flex-col shadow-2xl z-50 animate-slide-in">
-          <div className="flex items-center justify-between p-4 border-b gradient-primary">
+        <div className="fixed bottom-20 right-4 w-96 h-[550px] bg-card border rounded-lg shadow-xl flex flex-col animate-slide-in z-50">
+          <div className="flex items-center justify-between p-4 border-b bg-gradient-primary text-primary-foreground rounded-t-lg">
             <div className="flex items-center gap-2">
-              <MessageCircle className="h-5 w-5 text-white" />
-              <h3 className="font-semibold text-white">AI Assistant</h3>
+              <Bot className="h-5 w-5" />
+              <h3 className="font-semibold">CS-semHUB Assistant</h3>
             </div>
             <Button
-              size="icon"
               variant="ghost"
+              size="icon"
               onClick={() => setIsOpen(false)}
-              className="h-8 w-8 text-white hover:bg-white/20"
+              className="h-8 w-8 text-primary-foreground hover:bg-primary-foreground/20"
             >
               <X className="h-4 w-4" />
             </Button>
           </div>
 
-          <div className="p-3 bg-muted/50 border-b">
-            <p className="text-sm text-center">
-              💬 Clarify all your semester doubts here!
-            </p>
-          </div>
-
-          <ScrollArea className="flex-1 p-4">
+          <ScrollArea className="flex-1 p-4" ref={scrollRef}>
             <div className="space-y-4">
               {messages.map((message, index) => (
                 <div
                   key={index}
-                  className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
+                  className={`flex ${
+                    message.role === "user" ? "justify-end" : "justify-start"
+                  }`}
                 >
                   <div
                     className={`max-w-[80%] rounded-lg p-3 ${
                       message.role === "user"
                         ? "bg-primary text-primary-foreground"
+                        : message.isTyping
+                        ? "bg-muted animate-pulse"
                         : "bg-muted"
                     }`}
                   >
-                    <p className="text-sm">{message.content}</p>
+                    {message.content}
                   </div>
                 </div>
               ))}
+
+              {messages.length === 1 && (
+                <div className="grid grid-cols-2 gap-2 mt-4">
+                  <Button
+                    variant="outline"
+                    className="h-auto p-3 flex flex-col items-center gap-2 hover:bg-primary/10"
+                    onClick={() => handleQuickReply("Access syllabus")}
+                  >
+                    <BookOpen className="h-5 w-5 text-primary" />
+                    <span className="text-xs">Access syllabus 📘</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="h-auto p-3 flex flex-col items-center gap-2 hover:bg-primary/10"
+                    onClick={() => handleQuickReply("View notes")}
+                  >
+                    <FileText className="h-5 w-5 text-primary" />
+                    <span className="text-xs">View notes 📝</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="h-auto p-3 flex flex-col items-center gap-2 hover:bg-primary/10"
+                    onClick={() => handleQuickReply("Important questions")}
+                  >
+                    <HelpCircle className="h-5 w-5 text-primary" />
+                    <span className="text-xs">Important questions ❓</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="h-auto p-3 flex flex-col items-center gap-2 hover:bg-primary/10"
+                    onClick={() => handleQuickReply("Resources & PDFs")}
+                  >
+                    <Folder className="h-5 w-5 text-primary" />
+                    <span className="text-xs">Resources & PDFs 📂</span>
+                  </Button>
+                </div>
+              )}
             </div>
           </ScrollArea>
 
           <div className="p-4 border-t">
-            <div className="flex gap-2">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSend();
+              }}
+              className="flex gap-2"
+            >
               <Input
-                placeholder="Ask me anything about your CSE syllabus..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyPress={(e) => e.key === "Enter" && handleSend()}
+                placeholder="Ask me anything..."
+                className="flex-1"
               />
-              <Button size="icon" onClick={handleSend}>
+              <Button type="submit" size="icon" className="bg-primary hover:bg-primary/90">
                 <Send className="h-4 w-4" />
               </Button>
-            </div>
+            </form>
           </div>
-        </Card>
+        </div>
       )}
     </>
   );

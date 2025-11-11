@@ -3,7 +3,6 @@ import IntroAnimation from "@/components/IntroAnimation";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 import AIAssistant from "@/components/AIAssistant";
-import Footer from "@/components/Footer";
 import { Outlet } from "react-router-dom";
 
 const Index = () => {
@@ -40,7 +39,6 @@ const Index = () => {
         <Outlet />
       </main>
 
-      <Footer />
       <AIAssistant />
     </div>
   );

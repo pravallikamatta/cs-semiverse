@@ -1,9 +1,17 @@
-import { Search, Menu, Moon, Sun } from "lucide-react";
+import { Search, Menu, Moon, Sun, User, LogOut, BarChart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "@/assets/logo.png";
 import { useState, useEffect } from "react";
+import { useAuth } from "@/hooks/useAuth";
+import LoginDialog from "@/components/LoginDialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface HeaderProps {
   onSearch: (query: string) => void;
@@ -13,7 +21,9 @@ interface HeaderProps {
 const Header = ({ onSearch, onMenuClick }: HeaderProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isDark, setIsDark] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
   const navigate = useNavigate();
+  const { user, signOut } = useAuth();
 
   useEffect(() => {
     const isDarkMode = document.documentElement.classList.contains('dark');
@@ -77,9 +87,6 @@ const Header = ({ onSearch, onMenuClick }: HeaderProps) => {
           <Link to="/about" className="text-sm font-medium hover:text-primary transition-colors">
             About
           </Link>
-          <Link to="/contact" className="text-sm font-medium hover:text-primary transition-colors">
-            Contact
-          </Link>
         </nav>
 
         <Button
@@ -90,6 +97,39 @@ const Header = ({ onSearch, onMenuClick }: HeaderProps) => {
         >
           {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
         </Button>
+
+        {user ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="font-medium">
+                {user.user_metadata?.full_name || user.email?.split('@')[0]}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48 bg-card">
+              <DropdownMenuItem onClick={() => navigate('/profile')}>
+                <User className="mr-2 h-4 w-4" />
+                View Profile
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => navigate('/progress')}>
+                <BarChart className="mr-2 h-4 w-4" />
+                Progress
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={signOut}>
+                <LogOut className="mr-2 h-4 w-4" />
+                Logout
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          <Button 
+            onClick={() => setLoginOpen(true)}
+            className="bg-[hsl(198,80%,40%)] hover:bg-[hsl(198,80%,35%)] text-white"
+          >
+            Login
+          </Button>
+        )}
+
+        <LoginDialog open={loginOpen} onOpenChange={setLoginOpen} />
       </div>
     </header>
   );
