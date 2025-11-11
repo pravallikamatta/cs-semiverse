@@ -10,7 +10,7 @@ const Home = () => {
             Welcome to CS-semHUB
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Your Complete CSE Resource Hub — Access syllabus, notes, important questions, and resources for all semesters
+            Simplifying your semester journey.
           </p>
         </div>
 

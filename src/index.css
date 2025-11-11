@@ -51,42 +51,42 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 240 10% 10%;
-    --foreground: 0 0% 95%;
+    --background: 240 10% 8%;
+    --foreground: 0 0% 98%;
 
-    --card: 240 8% 15%;
-    --card-foreground: 0 0% 95%;
+    --card: 240 8% 12%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 240 8% 15%;
-    --popover-foreground: 0 0% 95%;
+    --popover: 240 8% 12%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 198 80% 50%;
+    --primary: 198 80% 55%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 330 65% 55%;
+    --secondary: 330 65% 60%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 240 5% 20%;
-    --muted-foreground: 240 5% 65%;
+    --muted: 240 5% 18%;
+    --muted-foreground: 240 5% 70%;
 
-    --accent: 275 55% 50%;
+    --accent: 275 55% 55%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 240 5% 25%;
-    --input: 240 5% 25%;
-    --ring: 198 80% 50%;
+    --border: 240 5% 22%;
+    --input: 240 5% 22%;
+    --ring: 198 80% 55%;
 
-    --gradient-start: 330 65% 55%;
-    --gradient-mid: 275 55% 50%;
-    --gradient-end: 198 80% 50%;
+    --gradient-start: 330 65% 60%;
+    --gradient-mid: 275 55% 55%;
+    --gradient-end: 198 80% 55%;
 
-    --year-1: 198 80% 60%;
-    --year-2: 160 60% 60%;
-    --year-3: 275 55% 65%;
-    --year-4: 330 65% 65%;
+    --year-1: 198 80% 65%;
+    --year-2: 160 60% 65%;
+    --year-3: 275 55% 70%;
+    --year-4: 330 65% 70%;
   }
 }
 
@@ -107,6 +107,10 @@ All colors MUST be HSL.
 
   .gradient-soft {
     background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(330 30% 96%) 50%, hsl(198 30% 96%) 100%);
+  }
+
+  .dark .gradient-soft {
+    background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(330 10% 12%) 50%, hsl(198 10% 12%) 100%);
   }
 
   .glass-effect {

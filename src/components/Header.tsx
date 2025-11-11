@@ -47,7 +47,7 @@ const Header = ({ onSearch, onMenuClick }: HeaderProps) => {
           </Button>
           
           <Link to="/" className="flex items-center gap-2">
-            <img src={logo} alt="CS-semHUB" className="h-10 w-10" />
+            <img src={logo} alt="CS-semHUB" className="h-14 w-14 sm:h-12 sm:w-12" />
             <span className="font-display font-semibold text-lg hidden sm:inline">
               CS-semHUB
             </span>
