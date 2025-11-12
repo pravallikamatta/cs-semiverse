@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { MessageCircle, X, Send, BookOpen, FileText, HelpCircle, Folder, Bot } from "lucide-react";
+import { MessageCircle, X, Send, BookOpen, FileText, HelpCircle, Folder, Bot, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -73,24 +73,27 @@ const AIAssistant = () => {
       )}
 
       {isOpen && (
-        <div className="fixed bottom-20 right-4 w-96 h-[550px] bg-card border rounded-lg shadow-xl flex flex-col animate-slide-in z-50">
-          <div className="flex items-center justify-between p-4 border-b bg-gradient-primary text-primary-foreground rounded-t-lg">
-            <div className="flex items-center gap-2">
-              <Bot className="h-5 w-5" />
-              <h3 className="font-semibold">CS-semHUB Assistant</h3>
+        <div className="fixed bottom-6 right-6 w-96 h-[600px] bg-card border border-border rounded-2xl shadow-2xl flex flex-col z-50 animate-in slide-in-from-bottom-4 duration-300">
+          <div className="flex items-center justify-between p-4 border-b border-border bg-primary rounded-t-2xl">
+            <div className="flex items-center gap-3">
+              <Bot className="h-6 w-6 text-primary-foreground" />
+              <h3 className="font-semibold text-primary-foreground">CS-semHUB Assistant</h3>
             </div>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsOpen(false)}
-              className="h-8 w-8 text-primary-foreground hover:bg-primary-foreground/20"
-            >
-              <X className="h-4 w-4" />
-            </Button>
+            <div className="flex items-center gap-1">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsOpen(false)}
+                className="h-9 w-9 text-primary-foreground hover:bg-primary-foreground/20 rounded-lg"
+                title="Close chat"
+              >
+                <ArrowLeft className="h-5 w-5" />
+              </Button>
+            </div>
           </div>
 
-          <ScrollArea className="flex-1 p-4" ref={scrollRef}>
-            <div className="space-y-4">
+          <ScrollArea className="flex-1 p-4">
+            <div className="space-y-4" ref={scrollRef}>
               {messages.map((message, index) => (
                 <div
                   key={index}
@@ -99,59 +102,59 @@ const AIAssistant = () => {
                   }`}
                 >
                   <div
-                    className={`max-w-[80%] rounded-lg p-3 ${
+                    className={`max-w-[80%] rounded-xl p-3 shadow-sm ${
                       message.role === "user"
                         ? "bg-primary text-primary-foreground"
                         : message.isTyping
-                        ? "bg-muted animate-pulse"
-                        : "bg-muted"
+                        ? "bg-muted text-muted-foreground animate-pulse"
+                        : "bg-muted text-muted-foreground"
                     }`}
                   >
-                    {message.content}
+                    <p className="text-sm leading-relaxed">{message.content}</p>
                   </div>
                 </div>
               ))}
 
               {messages.length === 1 && (
-                <div className="grid grid-cols-2 gap-2 mt-4">
+                <div className="grid grid-cols-2 gap-3 mt-6">
                   <Button
                     variant="outline"
-                    className="h-auto p-3 flex flex-col items-center gap-2 hover:bg-primary/10"
+                    className="h-auto p-4 flex flex-col items-center gap-2 hover:bg-primary/10 hover:border-primary transition-all"
                     onClick={() => handleQuickReply("Access syllabus")}
                   >
                     <BookOpen className="h-5 w-5 text-primary" />
-                    <span className="text-xs">Access syllabus 📘</span>
+                    <span className="text-xs font-medium">Access syllabus 📘</span>
                   </Button>
                   <Button
                     variant="outline"
-                    className="h-auto p-3 flex flex-col items-center gap-2 hover:bg-primary/10"
+                    className="h-auto p-4 flex flex-col items-center gap-2 hover:bg-primary/10 hover:border-primary transition-all"
                     onClick={() => handleQuickReply("View notes")}
                   >
                     <FileText className="h-5 w-5 text-primary" />
-                    <span className="text-xs">View notes 📝</span>
+                    <span className="text-xs font-medium">View notes 📝</span>
                   </Button>
                   <Button
                     variant="outline"
-                    className="h-auto p-3 flex flex-col items-center gap-2 hover:bg-primary/10"
+                    className="h-auto p-4 flex flex-col items-center gap-2 hover:bg-primary/10 hover:border-primary transition-all"
                     onClick={() => handleQuickReply("Important questions")}
                   >
                     <HelpCircle className="h-5 w-5 text-primary" />
-                    <span className="text-xs">Important questions ❓</span>
+                    <span className="text-xs font-medium">Important questions ❓</span>
                   </Button>
                   <Button
                     variant="outline"
-                    className="h-auto p-3 flex flex-col items-center gap-2 hover:bg-primary/10"
+                    className="h-auto p-4 flex flex-col items-center gap-2 hover:bg-primary/10 hover:border-primary transition-all"
                     onClick={() => handleQuickReply("Resources & PDFs")}
                   >
                     <Folder className="h-5 w-5 text-primary" />
-                    <span className="text-xs">Resources & PDFs 📂</span>
+                    <span className="text-xs font-medium">Resources & PDFs 📂</span>
                   </Button>
                 </div>
               )}
             </div>
           </ScrollArea>
 
-          <div className="p-4 border-t">
+          <div className="p-4 border-t border-border bg-background/50">
             <form
               onSubmit={(e) => {
                 e.preventDefault();
@@ -163,9 +166,9 @@ const AIAssistant = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask me anything..."
-                className="flex-1"
+                className="flex-1 bg-background"
               />
-              <Button type="submit" size="icon" className="bg-primary hover:bg-primary/90">
+              <Button type="submit" size="icon" className="bg-primary hover:bg-primary/90 shrink-0">
                 <Send className="h-4 w-4" />
               </Button>
             </form>
