@@ -9,7 +9,7 @@ const IntroAnimation = ({ onComplete }: IntroAnimationProps) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       onComplete();
-    }, 2000);
+    }, 1500);
 
     return () => clearTimeout(timer);
   }, [onComplete]);
@@ -19,7 +19,7 @@ const IntroAnimation = ({ onComplete }: IntroAnimationProps) => {
       <div className="relative">
         <img 
           src={logo} 
-          alt="CS-semHUB Logo" 
+          alt="CSE-semHUB Logo" 
           className="w-64 h-64 object-contain animate-fade-in"
           style={{ animationDelay: '0.2s' }}
         />

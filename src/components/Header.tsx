@@ -1,11 +1,10 @@
-import { Search, Menu, Moon, Sun, User, LogOut, BarChart } from "lucide-react";
+import { Menu, Moon, Sun, User, LogOut, BarChart, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "@/assets/logo.png";
 import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
-import LoginDialog from "@/components/LoginDialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,7 +20,6 @@ interface HeaderProps {
 const Header = ({ onSearch, onMenuClick }: HeaderProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isDark, setIsDark] = useState(false);
-  const [loginOpen, setLoginOpen] = useState(false);
   const navigate = useNavigate();
   const { user, signOut } = useAuth();
 
@@ -57,9 +55,9 @@ const Header = ({ onSearch, onMenuClick }: HeaderProps) => {
           </Button>
           
           <Link to="/" className="flex items-center gap-2">
-            <img src={logo} alt="CS-semHUB" className="h-14 w-14 sm:h-12 sm:w-12" />
-            <span className="font-display font-semibold text-lg hidden sm:inline">
-              CS-semHUB
+            <img src={logo} alt="CSE-semHUB" className="h-12 w-12 sm:h-14 sm:w-14 object-contain" />
+            <span className="font-display font-semibold text-lg sm:text-xl hidden sm:inline">
+              CSE-semHUB
             </span>
           </Link>
         </div>
@@ -98,7 +96,7 @@ const Header = ({ onSearch, onMenuClick }: HeaderProps) => {
           {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
         </Button>
 
-        {user ? (
+        {user && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="font-medium">
@@ -120,16 +118,7 @@ const Header = ({ onSearch, onMenuClick }: HeaderProps) => {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-        ) : (
-          <Button 
-            onClick={() => setLoginOpen(true)}
-            className="bg-[hsl(198,80%,40%)] hover:bg-[hsl(198,80%,35%)] text-white"
-          >
-            Login
-          </Button>
         )}
-
-        <LoginDialog open={loginOpen} onOpenChange={setLoginOpen} />
       </div>
     </header>
   );

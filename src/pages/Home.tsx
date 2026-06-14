@@ -6,11 +6,8 @@ const Home = () => {
     <div className="min-h-screen pt-24 pb-12">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12 animate-fade-in">
-          <h1 className="text-4xl md:text-5xl font-display font-bold mb-4 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-            Welcome to CS-semHUB
-          </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Simplifying your semester journey.
+          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto font-medium">
+            Simplifying your journey.
           </p>
         </div>
 
