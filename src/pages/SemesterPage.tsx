@@ -37,7 +37,9 @@ const SemesterPage = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {semesterData.subjects.map((subject, index) => (
+          {semesterData.subjects
+            .filter((s) => !/lab/i.test(s.title))
+            .map((subject, index) => (
             <div
               key={subject.code}
               className="animate-fade-in"
@@ -51,7 +53,7 @@ const SemesterPage = () => {
                 syllabus={subject.syllabus}
               />
             </div>
-          ))}
+            ))}
         </div>
       </div>
     </div>

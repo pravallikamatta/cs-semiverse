@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
+import { Navigate } from "react-router-dom";
 import IntroAnimation from "@/components/IntroAnimation";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 import AIAssistant from "@/components/AIAssistant";
 import { Outlet } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 
 const Index = () => {
   const [showIntro, setShowIntro] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { user, loading } = useAuth();
 
   useEffect(() => {
     // Check if user has seen intro before
@@ -28,6 +31,14 @@ const Index = () => {
 
   if (showIntro) {
     return <IntroAnimation onComplete={handleIntroComplete} />;
+  }
+
+  if (loading) {
+    return <div className="min-h-screen gradient-soft" />;
+  }
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
   }
 
   return (

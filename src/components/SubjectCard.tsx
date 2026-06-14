@@ -1,4 +1,4 @@
-import { Book, FileText, HelpCircle, ExternalLink } from "lucide-react";
+import { Book, FileText, FolderOpen, HardDrive } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -78,15 +78,15 @@ const SubjectCard = ({ code, title, credits, category, syllabus }: SubjectCardPr
         </Dialog>
         <Button size="sm" variant="outline" className="gap-2">
           <FileText className="h-4 w-4" />
-          Notes
+          PDFs
         </Button>
         <Button size="sm" variant="outline" className="gap-2">
-          <HelpCircle className="h-4 w-4" />
-          Important Qs
-        </Button>
-        <Button size="sm" variant="outline" className="gap-2">
-          <ExternalLink className="h-4 w-4" />
+          <FolderOpen className="h-4 w-4" />
           Resources
+        </Button>
+        <Button size="sm" variant="outline" className="gap-2">
+          <HardDrive className="h-4 w-4" />
+          Drive
         </Button>
       </div>
     </Card>
