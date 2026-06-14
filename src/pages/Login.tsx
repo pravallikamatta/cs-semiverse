@@ -95,7 +95,6 @@ const Login = () => {
         <div className="flex flex-col items-center mb-6">
           <img src={logo} alt="CSE-semHUB" className="h-20 w-20 mb-3" />
           <h1 className="text-2xl font-display font-bold">CSE-semHUB</h1>
-          <p className="text-sm text-muted-foreground">Simplifying your journey.</p>
         </div>
 
         <Tabs defaultValue="email" className="w-full">
