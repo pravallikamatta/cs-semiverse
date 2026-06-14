@@ -42,7 +42,8 @@ const Login = () => {
           options: { data: { full_name: fullName }, emailRedirectTo: `${window.location.origin}/` },
         });
         if (error) throw error;
-        toast({ title: "Account created", description: "You are now signed in." });
+        toast({ title: "Verify your email", description: "We sent a verification link to your email. Please verify before logging in." });
+        setIsSignUp(false);
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
@@ -95,7 +96,6 @@ const Login = () => {
         <div className="flex flex-col items-center mb-6">
           <img src={logo} alt="CSE-semHUB" className="h-20 w-20 mb-3" />
           <h1 className="text-2xl font-display font-bold">CSE-semHUB</h1>
-          <p className="text-sm text-muted-foreground">Simplifying your journey.</p>
         </div>
 
         <Tabs defaultValue="email" className="w-full">
@@ -134,7 +134,7 @@ const Login = () => {
             <div className="space-y-3 mt-4">
               <div className="space-y-1">
                 <Label htmlFor="phone">Phone Number</Label>
-                <Input id="phone" type="tel" placeholder="+919876543210" value={phone} onChange={(e) => setPhone(e.target.value)} disabled={otpSent} />
+                <Input id="phone" type="tel" placeholder="Phone number" value={phone} onChange={(e) => setPhone(e.target.value)} disabled={otpSent} />
               </div>
               {otpSent && (
                 <div className="space-y-1">
