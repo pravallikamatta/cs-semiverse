@@ -42,7 +42,8 @@ const Login = () => {
           options: { data: { full_name: fullName }, emailRedirectTo: `${window.location.origin}/` },
         });
         if (error) throw error;
-        toast({ title: "Account created", description: "You are now signed in." });
+        toast({ title: "Verify your email", description: "We sent a verification link to your email. Please verify before logging in." });
+        setIsSignUp(false);
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
