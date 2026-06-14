@@ -133,7 +133,7 @@ const Login = () => {
             <div className="space-y-3 mt-4">
               <div className="space-y-1">
                 <Label htmlFor="phone">Phone Number</Label>
-                <Input id="phone" type="tel" placeholder="+919876543210" value={phone} onChange={(e) => setPhone(e.target.value)} disabled={otpSent} />
+                <Input id="phone" type="tel" placeholder="Phone number" value={phone} onChange={(e) => setPhone(e.target.value)} disabled={otpSent} />
               </div>
               {otpSent && (
                 <div className="space-y-1">
