@@ -3,7 +3,6 @@ import { Navigate } from "react-router-dom";
 import IntroAnimation from "@/components/IntroAnimation";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
-import AIAssistant from "@/components/AIAssistant";
 import { Outlet } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -49,8 +48,6 @@ const Index = () => {
       <main className="flex-1">
         <Outlet />
       </main>
-
-      <AIAssistant />
     </div>
   );
 };
