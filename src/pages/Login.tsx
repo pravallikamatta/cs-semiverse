@@ -94,7 +94,7 @@ const Login = () => {
     <div className="min-h-screen gradient-soft flex items-center justify-center p-4">
       <Card className="w-full max-w-md p-8 shadow-2xl">
         <div className="flex flex-col items-center mb-6">
-          <img src={logo} alt="CSE-semHUB" className="h-20 w-20 mb-3" />
+          <img src={logo} alt="CSE-semHUB" className="h-32 w-32 mb-3" />
           <h1 className="text-2xl font-display font-bold">CSE-semHUB</h1>
         </div>
 
