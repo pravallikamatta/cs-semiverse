@@ -22,11 +22,6 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // Phone
-  const [phone, setPhone] = useState("");
-  const [otp, setOtp] = useState("");
-  const [otpSent, setOtpSent] = useState(false);
-
   useEffect(() => {
     if (user) navigate("/", { replace: true });
   }, [user, navigate]);
@@ -42,38 +37,13 @@ const Login = () => {
           options: { data: { full_name: fullName }, emailRedirectTo: `${window.location.origin}/` },
         });
         if (error) throw error;
-        toast({ title: "Verify your email", description: "We sent a verification link to your email. Please verify before logging in." });
-        setIsSignUp(false);
+        toast({ title: "Account created", description: "You are logged in now." });
+        navigate("/", { replace: true });
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
+        navigate("/", { replace: true });
       }
-    } catch (err: any) {
-      toast({ variant: "destructive", title: "Error", description: err.message });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSendOtp = async () => {
-    setLoading(true);
-    try {
-      const { error } = await supabase.auth.signInWithOtp({ phone });
-      if (error) throw error;
-      setOtpSent(true);
-      toast({ title: "OTP sent", description: `Check your phone ${phone}.` });
-    } catch (err: any) {
-      toast({ variant: "destructive", title: "Error", description: err.message });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleVerifyOtp = async () => {
-    setLoading(true);
-    try {
-      const { error } = await supabase.auth.verifyOtp({ phone, token: otp, type: "sms" });
-      if (error) throw error;
     } catch (err: any) {
       toast({ variant: "destructive", title: "Error", description: err.message });
     } finally {
@@ -99,9 +69,8 @@ const Login = () => {
         </div>
 
         <Tabs defaultValue="email" className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="email">Email</TabsTrigger>
-            <TabsTrigger value="phone">Phone</TabsTrigger>
             <TabsTrigger value="google">Google</TabsTrigger>
           </TabsList>
 
@@ -128,35 +97,6 @@ const Login = () => {
                 {isSignUp ? "Already have an account? Login" : "New user? Sign up"}
               </button>
             </form>
-          </TabsContent>
-
-          <TabsContent value="phone">
-            <div className="space-y-3 mt-4">
-              <div className="space-y-1">
-                <Label htmlFor="phone">Phone Number</Label>
-                <Input id="phone" type="tel" placeholder="Phone number" value={phone} onChange={(e) => setPhone(e.target.value)} disabled={otpSent} />
-              </div>
-              {otpSent && (
-                <div className="space-y-1">
-                  <Label htmlFor="otp">OTP</Label>
-                  <Input id="otp" inputMode="numeric" value={otp} onChange={(e) => setOtp(e.target.value)} />
-                </div>
-              )}
-              {!otpSent ? (
-                <Button onClick={handleSendOtp} className="w-full" disabled={loading || !phone}>
-                  {loading ? "Sending..." : "Send OTP"}
-                </Button>
-              ) : (
-                <>
-                  <Button onClick={handleVerifyOtp} className="w-full" disabled={loading || !otp}>
-                    {loading ? "Verifying..." : "Verify OTP"}
-                  </Button>
-                  <button type="button" onClick={() => { setOtpSent(false); setOtp(""); }} className="text-sm text-primary hover:underline w-full text-center">
-                    Change number
-                  </button>
-                </>
-              )}
-            </div>
           </TabsContent>
 
           <TabsContent value="google">
