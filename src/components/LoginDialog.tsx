@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -12,6 +13,7 @@ interface LoginDialogProps {
 }
 
 const LoginDialog = ({ open, onOpenChange }: LoginDialogProps) => {
+  const navigate = useNavigate();
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -37,9 +39,10 @@ const LoginDialog = ({ open, onOpenChange }: LoginDialogProps) => {
         
         toast({
           title: "Success!",
-          description: "Account created successfully. You can now log in.",
+          description: "Account created successfully. You are logged in now.",
         });
-        setIsSignUp(false);
+        onOpenChange(false);
+        navigate("/", { replace: true });
         setFullName("");
       } else {
         const { error } = await supabase.auth.signInWithPassword({
@@ -54,6 +57,7 @@ const LoginDialog = ({ open, onOpenChange }: LoginDialogProps) => {
           description: "You have successfully logged in.",
         });
         onOpenChange(false);
+        navigate("/", { replace: true });
       }
       
       setEmail("");
