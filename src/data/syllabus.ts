@@ -9,6 +9,7 @@ export interface Subject {
 export interface Semester {
   id: string;
   name: string;
+  driveLink?: string;
   subjects: Subject[];
 }
 
@@ -253,6 +254,7 @@ export const syllabusData: Year[] = [
       {
         id: "3-2",
         name: "II Semester",
+        driveLink: "https://drive.google.com/drive/folders/1azPuSrxfE4U0AZkc_9IaFMq5YnudqkaT?usp=sharing",
         subjects: [
           { code: "CS3201", title: "Web Technologies", credits: 3, category: "PC", syllabus: ["HTML5 & CSS3", "JavaScript", "DOM Manipulation", "AJAX", "Node.js", "Express.js", "MongoDB", "RESTful APIs", "React Basics"] },
           { code: "CS3202", title: "Machine Learning", credits: 3, category: "PC", syllabus: ["ML Fundamentals", "Supervised Learning", "Unsupervised Learning", "Linear Regression", "Classification", "Clustering", "Neural Networks", "Deep Learning Basics"] },
