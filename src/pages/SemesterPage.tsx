@@ -51,6 +51,7 @@ const SemesterPage = () => {
                 credits={subject.credits}
                 category={subject.category}
                 syllabus={subject.syllabus}
+                driveLink={semesterData.driveLink}
               />
             </div>
             ))}

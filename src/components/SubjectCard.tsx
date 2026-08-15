@@ -17,9 +17,10 @@ interface SubjectCardProps {
   credits: number;
   category: string;
   syllabus?: string[];
+  driveLink?: string;
 }
 
-const SubjectCard = ({ code, title, credits, category, syllabus }: SubjectCardProps) => {
+const SubjectCard = ({ code, title, credits, category, syllabus, driveLink }: SubjectCardProps) => {
   const categoryColors: Record<string, string> = {
     BS: "bg-blue-500/10 text-blue-700 dark:text-blue-400",
     PC: "bg-primary/10 text-primary",
@@ -84,9 +85,24 @@ const SubjectCard = ({ code, title, credits, category, syllabus }: SubjectCardPr
           <FolderOpen className="h-4 w-4" />
           Resources
         </Button>
-        <Button size="sm" variant="outline" className="gap-2">
-          <HardDrive className="h-4 w-4" />
-          Drive
+        <Button
+          size="sm"
+          variant="outline"
+          className="gap-2"
+          disabled={!driveLink}
+          asChild={!!driveLink}
+        >
+          {driveLink ? (
+            <a href={driveLink} target="_blank" rel="noopener noreferrer">
+              <HardDrive className="h-4 w-4" />
+              Drive
+            </a>
+          ) : (
+            <span>
+              <HardDrive className="h-4 w-4" />
+              Drive
+            </span>
+          )}
         </Button>
       </div>
     </Card>
